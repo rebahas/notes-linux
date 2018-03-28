@@ -1,0 +1,159 @@
+#tail example
+
+tail -f some_log_file.log | grep --line-buffered the_thing_i_want
+
+
+#install ISO on pendrive
+
+sudo dd bs=4M if=/path/to/antergos-x86_64.iso of=/dev/sdX status=progress && sudo sync
+
+
+#clean pendrive
+
+sudo dd if=/dev/zero of=/dev/sdb bs=1M count=1
+
+
+# cat /proc/meminfo in GB
+
+awk '$3=="kB"{if ($2>1024**2){$2=$2/1024**2;$3="GB";} else if ($2>1024){$2=$2/1024;$3="MB";}} 1' /proc/meminfo | column -t
+
+or
+
+MEMTOTAL=`free | grep Mem | awk '{ print $2 }'`
+MEMUSED=`free | grep Mem | awk '{ print $3 }'`
+MEMFREE=`free | grep Mem | awk '{ print $4 }'`
+
+echo "Total: "`expr $MEMTOTAL / 1048576`"Gb"
+echo "Used: "`expr $MEMUSED / 1024`"Mb" "($MEMUSED Kb)"
+echo "Free: "`expr $MEMFREE / 1024`"Mb" "($MEMFREE Kb)"
+
+
+
+# SED simple change
+
+sed -i 's/wheezy/jessie/g' /etc/apt/sources.list
+
+
+http://ubuntu.pl/?s=Konsola+nie+gryzie
+
+#find file and grep its
+
+find domains/ -name 'version.php' |xargs  cat | grep 'wp_version ='
+
+#Ubuntu search fast repo
+
+curl -s http://mirrors.ubuntu.com/mirrors.txt | xargs -n1 -I {} sh -c 'echo `curl -r 0-102400 -s -w %{speed_download} -o /dev/null {}/ls-lR.gz` {}' |sort -g -r |head -1| awk '{ print $2  }'
+
+
+# nmap scan  Word Press sites
+
+nmap -sV --script http-wordpress-enum --script-args limit=25
+
+#remove old packages from  Debian/Ubuntu/Mint
+
+dpkg --list |grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge
+
+
+# find string in file and remove whole line with this string
+
+grep -rl 'setTimeout(10);' domains/* | xargs sed -i '' /setTimeout/d
+
+
+
+sudo dpkg -l | grep "^rc" | cut -d " " -f 3 | xargs sudo apt-get install -y
+
+
+grep
+http://blog.philippklaus.de/2010/02/analyse-illegal-ssh-login-attempts/
+
+
+remove GPT partition
+
+$ sudo sgdisk --zap /dev/sdc
+GPT data structures destroyed! You may now partition the disk using fdisk or
+other utilities.
+
+
+# grep -l "szukany tekst"
+
+grep with tab
+# grep -l $'^\tszukany tekst'
+
+grep without tab
+# grep -L $'^\tszukany tekst'
+
+
+grep -i -r "SSLCertificateFile" /etc/apache2/
+
+
+#listen ports
+
+ss -nlp
+netstat -ltunp
+
+#install iso on pendrive:
+
+sudo dd bs=4M if=debian-testing-amd64-kde-CD-1.iso of=/dev/sdb && sync
+
+
+#fast copy file
+    # cp config.cfg{,.bak}; ls config*
+    config.cfg  config.cfg.bak
+----------------------------------------------------------------------------------------
+use cut
+# hostname | cut -d. -f1
+gkar
+----------------------------------------------------------------------------------------
+FreeBSD command:
+- vmstat -z – ważne polecenie, liczniki alokacji pamięci przez: buckety,
+tablice haszujące, sockety i in.
+- netstat -m – liczniki zużycia tych newralgicznych mbufów
+- netstat -s – liczniki dla róznych protokołów: tcp, udp, icmp, ip, ip6, arp
+- top -PSH – wiadomo, obciążenie systemu online
+- bmon – niezawodzący progami do wielkości ruchu na interfejsach (w Bajtach)
+----------------------------------------------------------------------------------------
+hurt change premission for file and catalog
+
+find katalog -type d -exec chmod 755 {} \;
+find katalog -type f -exec chmod 644 {} \;
+----------------------------------------------------------------------------------------
+dstat -cnmplyid
+----------------------------------------------------------------------------------------
+grep -rl "BNET\\auth\\command_groups" katalog
+----------------------------------------------------------------------------------------
+# UNIX TOOLBOX
+http://cb.vu/unixtoolbox.xhtml
+----------------------------------------------------------------------------------------
+1. rpcinfo -p IP_of_nfsserver
+You should see a list that contain: portmapper, nfs, mountd, nlockmgr, status
+
+2. showmount -e IP_of_nfsserver
+You should see a list of NFS shares
+
+3. If above commands give a positive output, please use this mount options:
+mount -t nfs -o tcp, rsize=1500, wsize=1500 IP_of_nfsserver:/share/SHARE_NAME
+
+4. It could be a firewall on client side, for check it out, please turn off firewall.
+----------------------------------------------------------------------------------------
+lspci -v
+vmstat 1
+sysctl -a
+----------------------------------------------------------------------------------------
+Ponieważ ostatnio długo szukałem jednego z poleceń (skleroza nie boli, ale jak coś wyleci z głowy...) - oto lista nienajczęściej używanych, ale bardzo przydatnych poleceń systemu GNU/Linux Debian. Kolejność przypadkowa.
+
+    * dpkg-query -W - wyświetla listę zainstalowanych pakietów wraz z ich wersjami - dobre do backupu systemu,
+    * wajig sizes - lista pakietów wraz z rozmiarami - idealne do porządków w systemie,
+    * wajig clean - czyści cache pobranych pakietów - szybka metoda na brakujące miejsce w systemi,e
+    * rsync -r --partial --progress --bwlimit=20 user@host:/plik . - kopiuje plik ze zdalnego hosta z pokazywaniem postępu, ograniczeniem prędkości do 20 KB i zachowaniem częściowo pobranych plików - dobre do kopiowania dużych plików na wolnych łączach,
+    * wajig toupgrade - lista pakietów do aktualizacji, z wersjami,
+
+Jeśli kogoś to interesuje, my Fedorowcy mamy tak:
+
+dpkg-query -W → rpm -qa
+
+wajig sizes → yum list *
+
+wajig clean → yum clean all
+
+wajig toupgrade → yum check-update
+----------------------------------------------------------------------------------------
