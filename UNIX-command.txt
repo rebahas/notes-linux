@@ -1,3 +1,7 @@
+# make Fedora pendrive
+
+sudo dd if=Downloads/Fedora-Workstation-Live-x86_64-27-1.6.iso of=/dev/sdc bs=8M status=progress oflag=direct
+
 #tail example
 
 tail -f some_log_file.log | grep --line-buffered the_thing_i_want
